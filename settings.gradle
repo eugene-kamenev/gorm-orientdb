@@ -1,3 +1,3 @@
-include "grails-datastore-gorm-orient", "boot-plugin"
+include "grails-datastore-gorm-orient", "grails-datastore-gorm-orientdb-document", "boot-plugin"
 
 findProject(':boot-plugin').name = 'gorm-orient-spring-boot'

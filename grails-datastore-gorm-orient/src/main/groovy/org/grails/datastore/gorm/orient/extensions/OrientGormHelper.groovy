@@ -45,6 +45,7 @@ abstract class OrientGormHelper {
             }
             return OType.LINKMAP
         }
+        if(association.embedded) return OType.EMBEDDED;
         return OType.LINK
     }
 
