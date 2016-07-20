@@ -1,6 +1,7 @@
 package org.grails.datastore.gorm.orient.engine
 
 import com.orientechnologies.orient.core.db.record.OIdentifiable
+import com.orientechnologies.orient.core.exception.ORecordNotFoundException
 import com.orientechnologies.orient.core.id.ORecordId
 import com.orientechnologies.orient.core.metadata.schema.OType
 import com.orientechnologies.orient.core.record.ORecord
@@ -37,6 +38,7 @@ import org.grails.datastore.mapping.model.types.*
 import org.grails.datastore.mapping.proxy.EntityProxy
 import org.grails.datastore.mapping.query.Query
 import org.springframework.context.ApplicationEventPublisher
+import org.springframework.dao.DataIntegrityViolationException
 
 /**
  * OrientDB entity persister implementation
@@ -96,8 +98,12 @@ class OrientEntityPersister extends EntityPersister {
         if (!recordId) {
             return null
         }
-        def record = recordId.record.load()
-        return unmarshallEntity(persistentEntity, record)
+        try {
+            def record = recordId.record.load()
+            return unmarshallEntity(persistentEntity, record)
+        } catch (ORecordNotFoundException e) {
+            throw new DataIntegrityViolationException("${recordId.toString()} possibly does not exist", e)
+        }
     }
 
     @Override

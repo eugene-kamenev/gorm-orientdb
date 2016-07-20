@@ -234,6 +234,9 @@ class OrientSession extends AbstractSession<ODatabaseDocumentTx> {
      */
     @Override
     long updateAll(QueryableCriteria criteria, Map<String, Object> properties) {
+        /**
+         * TODO: Here we can make update query by criteria
+         */
         return super.updateAll(criteria, properties)
     }
 
